@@ -46,6 +46,54 @@ INSY7314/
 └── README.md
 ```
 
+## CI/CD with CircleCI and SonarQube
+
+This project uses CircleCI for continuous integration and SonarQube for code quality analysis.
+
+### Prerequisites for CI/CD
+
+1. A [GitHub](https://github.com/) account
+2. A [CircleCI](https://circleci.com/) account connected to your GitHub
+3. A [SonarCloud](https://sonarcloud.io/) account (free for open source)
+
+### Setup Instructions
+
+1. **Push to GitHub**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit with CI/CD setup"
+   git branch -M main
+   git remote add origin YOUR_REPOSITORY_URL
+   git push -u origin main
+   ```
+
+2. **Setup CircleCI**
+   - Go to [CircleCI](https://circleci.com/) and sign in with GitHub
+   - Click "Set Up Project" next to your repository
+   - Select "Fastest" to use the existing `.circleci/config.yml`
+   - Click "Set Up Project"
+
+3. **Setup SonarCloud**
+   - Go to [SonarCloud](https://sonarcloud.io/) and sign in with GitHub
+   - Click "+" and select "Analyze new project"
+   - Select your repository
+   - Under "Project Key", use the format: `YOUR_GITHUB_ORG_OR_USERNAME_INSY7314_International_Payment_System`
+   - Click "Set Up"
+   - Under "With CI" select "CircleCI" and follow the instructions to get your `SONAR_TOKEN`
+
+4. **Add Environment Variables in CircleCI**
+   - In CircleCI, go to your project settings
+   - Select "Environment Variables"
+   - Add the following variables:
+     - `SONAR_TOKEN`: Your SonarCloud token
+     - `SONAR_ORGANIZATION`: Your SonarCloud organization key
+
+5. **Next Build**
+   - Push a new commit to trigger the CircleCI pipeline
+   - The pipeline will run tests and perform a SonarQube scan
+   - View results in both CircleCI and SonarCloud dashboards
+
 ## Prerequisites
 
 - Node.js (v16 or higher)
