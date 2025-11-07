@@ -1,0 +1,40 @@
+version: 2.1
+
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.3
+
+jobs:
+  build-and-scan:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      
+      # Install dependencies
+      - run:
+          name: Install Dependencies
+          command: |
+            cd INSY7314
+            npm install
+            npm install -g sonarqube-scanner
+            
+      # Run tests (if you have tests)
+      - run:
+          name: Run Tests
+          command: |
+            cd INSY7314
+            if [ -f "package.json" ]; then
+              npm test
+            fi
+            
+      # Run SonarQube analysis
+      - sonarcloud/scan:
+          additional-properties: |
+            sonar.javascript.lcov.reportPaths=coverage/lcov.info
+            sonar.testExecutionReportPaths=test-report.xml
+
+workflows:
+  version: 2
+  build-and-scan:
+    jobs:
+      - build-and-scan
